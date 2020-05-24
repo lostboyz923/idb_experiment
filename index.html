@@ -6,15 +6,124 @@
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
+        <style>
+            .custom-file {
+            max-width: 20rem;
+            overflow: hidden;
+            }
+            .custom-file-label {
+            white-space: nowrap;
+            }
+        </style>
+
         <title>IndexedDB</title>
     </head>
 
     <body>
-        <h1>IndexedDB</h1>
+        <div class="container">
+            <h1 class="my-3">IndexedDB-Experiment</h1>
+
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr><th>Name</th><th>Evaluation</th><th>Comment</th><th>Images</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th><input type="text" class="form-control"></th>
+                        <th>
+                            <select class="form-control">
+                                <option>Excellent</option>
+                                <option>Good</option>
+                                <option>Poor</option>
+                            </select>
+                        </th>
+                        <th>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#commentModal">write</button>
+                        </th>
+                        <th>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#imagesModal">attach</button>
+                        </th>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Comment -->
+            <div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Comment</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <textarea rows="5" class="form-control"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div><!-- /.modal-footer -->
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
+            <!-- Image -->
+            <div class="modal fade" id="imagesModal" tabindex="-1" role="dialog" aria-labelledby="imagesModalLabel">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Images</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="file" class="input-group">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="customFile" name="custom[file][]" multiple>
+                                    <label class="custom-file-label" for="customFile" data-browse="参照">ファイル選択...</label>
+                                </div>
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-outline-secondary reset"><i class="fas fa-times fa-fw"></i>取消</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div><!-- /.modal-footer -->
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        </div>
 
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script>
+            $('.custom-file-input').on('change', handleFileSelect);
+            function handleFileSelect(evt) {
+                    $('#preview').remove();// 繰り返し実行時の処理
+                    $(this).parents('.input-group').after('<div id="preview"></div>');
+
+            var files = evt.target.files;
+
+                var output = [];
+                for (var i = 0, f; f = files[i]; i++) {
+                    output.push('<li>', escape(f.name), ' (', f.size, ' bytes)</li>');
+                }
+                $('#preview').append('<ul>' + output.join('') + '</ul>');
+
+                $(this).next('.custom-file-label').html(+ files.length + '個のファイルを選択しました');
+            }
+
+
+            //ファイルの取消
+            $('.reset').click(function(){
+                $(this).parent().prev().children('.custom-file-label').html('ファイル選択...');
+                $('#preview').remove();
+                $('.custom-file-input').val('');
+            })
+        </script>
         <script src="idb.js"></script>
     </body>
 </html>
