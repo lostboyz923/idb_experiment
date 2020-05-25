@@ -7,11 +7,10 @@ function initializeDB() {
         let db = event.target.result;
 
         let objectStore = db.createObjectStore("myObjectStore", { keyPath: "id" });
-        objectStore.createIndex("index1", "index1", { unique: false });
-        objectStore.createIndex("index2", "index2", { unique: false });
-        objectStore.createIndex("index3", "index3", { unique: false });
-        objectStore.createIndex("index4", "index4", { unique: false });
-        objectStore.createIndex("index5", "index5", { unique: false });
+        objectStore.createIndex("name", "name", { unique: false });
+        objectStore.createIndex("evaluation", "evaluation", { unique: false });
+        objectStore.createIndex("comment", "comment", { unique: false });
+        objectStore.createIndex("images", "images", { unique: false });
     };
 }
 
