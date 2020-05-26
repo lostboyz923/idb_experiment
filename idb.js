@@ -14,6 +14,68 @@ function initializeDB() {
     };
 }
 
+function saveToIdb(id, key, value) {
+    let dbOpenRequest = window.indexedDB.open("myDB");
+
+    dbOpenRequest.onsuccess = function(event) {
+        let db = dbOpenRequest.result;
+        let transaction = db.transaction(["myObjectStore"], "readwrite");
+        let objectStore = transaction.objectStore("myObjectStore");
+        let objectGetRequest = objectStore.get(id);
+
+        objectGetRequest.onsuccess = function(event) {
+            let object = objectGetRequest.result;
+            if(object == null) {
+                let newObject = {
+                    id: id
+                };
+
+                switch(key) {
+                    case 'name':
+                        newObject.name = value;
+                        break;
+                    case 'evaluation':
+                        newObject.evaluation = value;
+                        break;
+                    case 'comment':
+                        newObject.comment = value;
+                        break;
+                    case 'images':
+                        newObject.images = value;
+                        break;
+                }
+
+                objectStore.add(newObject);
+            } else {
+                switch(key) {
+                    case 'name':
+                        object.name = value;
+                        break;
+                    case 'evaluation':
+                        object.evaluation = value;
+                        break;
+                    case 'comment':
+                        object.comment = value;
+                        break;
+                    case 'images':
+                        object.images = value;
+                        break;
+                }
+
+                objectStore.put(object);
+            }
+        };
+
+        objectGetRequest.onerror = function(error) {
+            console.log(error);
+        };
+    };
+
+    dbOpenRequest.onerror = function(error) {
+        console.log(error);
+    };
+}
+
 function saveData() {
     return new Promise(function(resolve, reject) {
         let tmpData = { 
