@@ -14,6 +14,15 @@ function initializeDB() {
     };
 }
 
+$(function() {
+    let id = 1;
+    
+    $('#name').on('change', function() {
+        let name = $('#name').val();
+        saveToIdb(id, 'name', name);
+    });
+});
+
 function saveToIdb(id, key, value) {
     let dbOpenRequest = window.indexedDB.open("myDB");
 
