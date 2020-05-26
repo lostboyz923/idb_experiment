@@ -26,6 +26,11 @@ $(function() {
         let evaluation = $('#evaluation').val();
         saveToIdb(id, 'evaluation', evaluation);
     });
+
+    $('#comment').on('change', function() {
+        let comment = $('#comment').val();
+        saveToIdb(id, 'comment', comment);
+    });
 });
 
 function saveToIdb(id, key, value) {
