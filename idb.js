@@ -37,6 +37,13 @@ $(function() {
     $('#comment').on('change', function() {
         let comment = $('#comment').val();
         saveToIdb(id, 'comment', comment);
+
+        let recode = $('.recode');
+        rewriteWithIdb(recode, id);
+    });
+
+    $('.comment').on('click', function() {
+        rewriteCommentWithIdb(id);
     });
 });
 
@@ -122,7 +129,33 @@ function rewriteWithIdb(recode, id) {
             }
 
             if(object.comment) {
-                //recode.find('#comment').val(object.comment);
+                recode.find('#commentText').val(object.comment);
+            }
+        };
+
+        objectGetRequest.onerror = function(error) {
+            console.log(error);
+        };
+    };
+
+    dbOpenRequest.onerror = function(error) {
+        console.log(error);
+    };
+}
+
+function rewriteCommentWithIdb(id) {
+    let dbOpenRequest = window.indexedDB.open("myDB");
+
+    dbOpenRequest.onsuccess = function(event) {
+        let db = dbOpenRequest.result;
+        let transaction = db.transaction(["myObjectStore"], "readwrite");
+        let objectStore = transaction.objectStore("myObjectStore");
+        let objectGetRequest = objectStore.get(id);
+
+        objectGetRequest.onsuccess = function(event) {
+            let object = objectGetRequest.result;
+            
+            if(object.comment) {
                 $('#comment').val(object.comment);
             }
         };
