@@ -14,6 +14,13 @@ function initializeDB() {
     };
 }
 
+document.addEventListener("DOMContentLoaded", function(){
+    let recode = $('.recode');
+
+    let id = 1;
+    rewriteWithIdb(recode, id);
+});
+
 $(function() {
     let id = 1;
     
@@ -115,7 +122,8 @@ function rewriteWithIdb(recode, id) {
             }
 
             if(object.comment) {
-                recode.find('#comment').val(object.comment);
+                //recode.find('#comment').val(object.comment);
+                $('#comment').val(object.comment);
             }
         };
 
