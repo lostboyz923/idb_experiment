@@ -95,6 +95,40 @@ function saveToIdb(id, key, value) {
     };
 }
 
+function rewriteWithIdb(recode, id) {
+    let dbOpenRequest = window.indexedDB.open("myDB");
+
+    dbOpenRequest.onsuccess = function(event) {
+        let db = dbOpenRequest.result;
+        let transaction = db.transaction(["myObjectStore"], "readwrite");
+        let objectStore = transaction.objectStore("myObjectStore");
+        let objectGetRequest = objectStore.get(id);
+
+        objectGetRequest.onsuccess = function(event) {
+            let object = objectGetRequest.result;
+            if(object.name) {
+                recode.find('#name').val(object.name);
+            }
+
+            if(object.evaluation) {
+                recode.find('#evaluation').val(object.evaluation);
+            }
+
+            if(object.comment) {
+                recode.find('#comment').val(object.comment);
+            }
+        };
+
+        objectGetRequest.onerror = function(error) {
+            console.log(error);
+        };
+    };
+
+    dbOpenRequest.onerror = function(error) {
+        console.log(error);
+    };
+}
+
 function saveData() {
     return new Promise(function(resolve, reject) {
         let tmpData = { 
