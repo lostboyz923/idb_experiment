@@ -70,7 +70,7 @@
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
 
-            <!-- Image -->
+            <!-- Images -->
             <div class="modal fade" id="imagesModal" tabindex="-1" role="dialog" aria-labelledby="imagesModalLabel">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -81,13 +81,13 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <div id="file" class="input-group">
+                            <div class="input-group">
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="customFile" name="custom[file][]" multiple>
+                                    <input type="file" class="custom-file-input" id="customFile">
                                     <label class="custom-file-label" for="customFile" data-browse="参照">ファイル選択...</label>
                                 </div>
                                 <div class="input-group-append">
-                                    <button type="button" class="btn btn-outline-secondary reset"><i class="fas fa-times fa-fw"></i>取消</button>
+                                    <button type="button" class="btn btn-outline-secondary reset">取消</button>
                                 </div>
                             </div>
                         </div>
@@ -103,27 +103,12 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <script>
-            $('.custom-file-input').on('change', handleFileSelect);
-            function handleFileSelect(evt) {
-                    $('#preview').remove();// 繰り返し実行時の処理
-                    $(this).parents('.input-group').after('<div id="preview"></div>');
-
-            var files = evt.target.files;
-
-                var output = [];
-                for (var i = 0, f; f = files[i]; i++) {
-                    output.push('<li>', escape(f.name), ' (', f.size, ' bytes)</li>');
-                }
-                $('#preview').append('<ul>' + output.join('') + '</ul>');
-
-                $(this).next('.custom-file-label').html(+ files.length + '個のファイルを選択しました');
-            }
-
-
+            $('.custom-file-input').on('change',function(){
+                $(this).next('.custom-file-label').html($(this)[0].files[0].name);
+            })
             //ファイルの取消
             $('.reset').click(function(){
                 $(this).parent().prev().children('.custom-file-label').html('ファイル選択...');
-                $('#preview').remove();
                 $('.custom-file-input').val('');
             })
         </script>
