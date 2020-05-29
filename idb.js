@@ -70,14 +70,8 @@ function saveToIdb(id, key, value) {
             }
         };
 
-        objectGetRequest.onerror = function(error) {
-            console.log(error);
-        };
     };
 
-    dbOpenRequest.onerror = function(error) {
-        console.log(error);
-    };
 }
 
 function rewriteWithIdb(recode, id) {
@@ -104,14 +98,8 @@ function rewriteWithIdb(recode, id) {
             }
         };
 
-        objectGetRequest.onerror = function(error) {
-            console.log(error);
-        };
     };
 
-    dbOpenRequest.onerror = function(error) {
-        console.log(error);
-    };
 }
 
 function rewriteCommentWithIdb(id) {
@@ -131,12 +119,6 @@ function rewriteCommentWithIdb(id) {
             }
         };
 
-        objectGetRequest.onerror = function(error) {
-            console.log(error);
-        };
     };
 
-    dbOpenRequest.onerror = function(error) {
-        console.log(error);
-    };
 }
