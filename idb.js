@@ -59,41 +59,12 @@ function saveToIdb(id, key, value) {
         objectGetRequest.onsuccess = function(event) {
             let object = objectGetRequest.result;
             if(object == null) {
-                let newObject = {
-                    id: id
-                };
-
-                switch(key) {
-                    case 'name':
-                        newObject.name = value;
-                        break;
-                    case 'evaluation':
-                        newObject.evaluation = value;
-                        break;
-                    case 'comment':
-                        newObject.comment = value;
-                        break;
-                    case 'images':
-                        newObject.images = value;
-                        break;
-                }
+                let newObject = { id: id };
+                newObject[key] = value;
 
                 objectStore.add(newObject);
             } else {
-                switch(key) {
-                    case 'name':
-                        object.name = value;
-                        break;
-                    case 'evaluation':
-                        object.evaluation = value;
-                        break;
-                    case 'comment':
-                        object.comment = value;
-                        break;
-                    case 'images':
-                        object.images = value;
-                        break;
-                }
+                object[key] = value;
 
                 objectStore.put(object);
             }
