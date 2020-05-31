@@ -2,7 +2,7 @@ $('.custom-file-input').on('change',function(){
     $(this).next('.custom-file-label').html($(this)[0].files[0].name);
     //ファイルの取得
     file = $(this).prop('files')[0];
-    resizeImage(file);
+    resizeImage(file, $(this));
 })
 //ファイルの取消
 $('.reset').click(function(){
@@ -11,7 +11,7 @@ $('.reset').click(function(){
 })
 
 // 画像のリサイズ
-function resizeImage(file) {
+function resizeImage(file, mark) {
     console.log(file);
     //リサイズ後の幅と高さの最大値を定義
     const maxWidth = 500;
@@ -41,7 +41,7 @@ function resizeImage(file) {
                 }
             }
             //canvas
-            let canvas = $('#canvas').attr('width', width).attr('height', height);
+            let canvas = mark.parents('.image').find('.canvas').attr('width', width).attr('height', height);
             let ctx = canvas[0].getContext('2d');
 
             //canvasに描画されている画像を削除
