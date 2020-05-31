@@ -39,3 +39,17 @@ function resizeImage(file) {
         };
     };
 }
+
+function ImageToBase64(image, type) {
+    //canvas
+    let canvas = document.createElement('canvas');
+    canvas.width = image.width;
+    canvas.height = image.height;
+
+    //イメージを描画する
+    let ctx = canvas.getContext('2d');
+    ctx.drawImage(image, 0, 0);
+
+    //Base64に変換
+    return canvas.toDataURL(type);
+}
