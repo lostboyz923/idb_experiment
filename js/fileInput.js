@@ -8,6 +8,12 @@ $('.custom-file-input').on('change',function(){
 $('.reset').click(function(){
     $(this).parent().prev().children('.custom-file-label').html('ファイル選択...');
     $('.custom-file-input').val('');
+
+    //canvasを削除する
+    let canvas = $(this).parents('.image').find('.canvas');
+    let ctx = canvas[0].getContext('2d');
+    ctx.clearRect(0, 0, canvas[0].width, canvas[0].height);
+    canvas.attr('width', 0).attr('height', 0);
 })
 
 // 画像のリサイズ
