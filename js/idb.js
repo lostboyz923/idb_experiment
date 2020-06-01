@@ -195,12 +195,16 @@ function displayImages(id) {
         let objectStore = transaction.objectStore("myObjectStore");
         let objectGetRequest = objectStore.get(id);
 
+        const imageList = $('#image-list').get(0);
+        
         objectGetRequest.onsuccess = function(event) {
             let object = objectGetRequest.result;
             
             if(object.images) {
                 for(i=0; i<object.images.length; i++) {
-                    console.log(object.images[i].image);
+                    let div = document.createElement('div')
+                    div.innerHTML="<img src ="+object.images[i].image+">";
+                    imageList.appendChild(div);
                 }
             }
         };
