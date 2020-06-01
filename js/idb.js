@@ -46,6 +46,10 @@ $(function() {
         rewriteCommentWithIdb(id);
     });
 
+    $('.images').on('click', function() {
+        displayImages(id);
+    });
+
     $('#close').on('click', function() {
         let canvas1 = $('#canvas1').get(0).toDataURL('image/jpeg');
         let canvas2 = $('#canvas2').get(0).toDataURL('image/jpeg');
@@ -175,6 +179,29 @@ function rewriteCommentWithIdb(id) {
             
             if(object.comment) {
                 $('#comment').val(object.comment);
+            }
+        };
+
+    };
+
+}
+
+function displayImages(id) {
+    let dbOpenRequest = window.indexedDB.open("myDB");
+
+    dbOpenRequest.onsuccess = function(event) {
+        let db = dbOpenRequest.result;
+        let transaction = db.transaction(["myObjectStore"], "readwrite");
+        let objectStore = transaction.objectStore("myObjectStore");
+        let objectGetRequest = objectStore.get(id);
+
+        objectGetRequest.onsuccess = function(event) {
+            let object = objectGetRequest.result;
+            
+            if(object.images) {
+                for(i=0; i<object.images.length; i++) {
+                    console.log(object.images[i].image);
+                }
             }
         };
 
