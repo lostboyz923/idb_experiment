@@ -45,6 +45,65 @@ $(function() {
     $('.comment').on('click', function() {
         rewriteCommentWithIdb(id);
     });
+
+    $('#close').on('click', function() {
+        let canvas1 = $('#canvas1').get(0).toDataURL('image/jpeg');
+        let canvas2 = $('#canvas2').get(0).toDataURL('image/jpeg');
+        let canvas3 = $('#canvas3').get(0).toDataURL('image/jpeg');
+        let canvas4 = $('#canvas4').get(0).toDataURL('image/jpeg');
+        let canvas5 = $('#canvas5').get(0).toDataURL('image/jpeg');
+
+        let images = [];
+        let order = 1;
+
+        if(canvas1 != 'data:,') {
+            let image = {
+                order: order,
+                image: canvas1,
+            };
+            images.push(image);
+            order = order + 1;
+        }
+
+        if(canvas2 != 'data:,') {
+            let image = {
+                order: order,
+                image: canvas2,
+            };
+            images.push(image);
+            order = order + 1;
+        }
+
+        if(canvas3 != 'data:,') {
+            let image = {
+                order: order,
+                image: canvas3,
+            };
+            images.push(image);
+            order = order + 1;
+        }
+
+        if(canvas4 != 'data:,') {
+            let image = {
+                order: order,
+                image: canvas4,
+            };
+            images.push(image);
+            order = order + 1;
+        }
+
+        if(canvas5 != 'data:,') {
+            let image = {
+                order: order,
+                image: canvas5,
+            };
+            images.push(image);
+            order = order + 1;
+        }
+
+        saveToIdb(id, 'images', images);
+
+    });
 });
 
 function saveToIdb(id, key, value) {
