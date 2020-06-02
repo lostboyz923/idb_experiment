@@ -205,7 +205,6 @@ function displayImages(id) {
                     ctx.clearRect(0, 0, canvas[0].width, canvas[0].height);
 
                     let img = new Image();
-                    img.src = object.images[i].image;
                     img.onload = function() {
                         console.log(img.src);
                         console.log(canvas[0].width);
@@ -213,7 +212,9 @@ function displayImages(id) {
                         console.log(img.width);
                         console.log(img.height);
                         ctx.drawImage(img, 0, 0, canvas[0].width, canvas[0].height, 0, 0, img.width, img.height);
-                    }
+                    };
+                    img.src = object.images[i].image;
+                    
                     index = index + 1;
                 }
             }
