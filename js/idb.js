@@ -38,8 +38,7 @@ $(function() {
         let comment = $('#comment').val();
         saveToIdb(id, 'comment', comment);
 
-        let recode = $('.recode');
-        rewriteWithIdb(recode, id);
+        $('.recode').find('#commentText').val(comment);
     });
 
     $('.comment').on('click', function() {
