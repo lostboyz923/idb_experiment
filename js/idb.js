@@ -74,7 +74,6 @@ $(function() {
                 image: canvas2
             };
             images.push(image);
-            order = order + 1;
         }
 
         if(canvas3 != 'data:,') {
@@ -194,16 +193,28 @@ function displayImages(id) {
         let objectStore = transaction.objectStore("myObjectStore");
         let objectGetRequest = objectStore.get(id);
 
-        const imageList = $('#image-list').get(0);
-        
         objectGetRequest.onsuccess = function(event) {
             let object = objectGetRequest.result;
             
             if(object.images) {
+                let index = 1;
                 for(i=0; i<object.images.length; i++) {
-                    let div = document.createElement('div')
-                    div.innerHTML="<img src ="+object.images[i].image+">";
-                    imageList.appendChild(div);
+                    $('#customFile'+index).next('.custom-file-label').html(object.images[i].fileName);
+                    let canvas = $('#canvas'+index);
+                    let ctx = canvas[0].getContext('2d');
+                    ctx.clearRect(0, 0, canvas[0].width, canvas[0].height);
+
+                    let img = new Image();
+                    img.src = object.images[i].image;
+                    img.onload = function() {
+                        console.log(img.src);
+                        console.log(canvas[0].width);
+                        console.log(canvas[0].height);
+                        console.log(img.width);
+                        console.log(img.height);
+                        ctx.drawImage(img, 0, 0, canvas[0].width, canvas[0].height, 0, 0, img.width, img.height);
+                    }
+                    index = index + 1;
                 }
             }
         };
