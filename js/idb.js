@@ -59,14 +59,18 @@ $(function() {
         let canvas5 = $('#canvas5').get(0).toDataURL('image/jpeg');
 
         if(canvas1 != 'data:,') {
+            let fileName = $('#customFile1')[0].files[0].name;
             let image = {
+                fileName: fileName,
                 image: canvas1
             };
             images.push(image);
         }
 
         if(canvas2 != 'data:,') {
+            let fileName = $('#customFile2')[0].files[0].name;
             let image = {
+                fileName: fileName,
                 image: canvas2
             };
             images.push(image);
@@ -74,21 +78,27 @@ $(function() {
         }
 
         if(canvas3 != 'data:,') {
+            let fileName = $('#customFile3')[0].files[0].name;
             let image = {
+                fileName: fileName,
                 image: canvas3
             };
             images.push(image);
         }
 
         if(canvas4 != 'data:,') {
+            let fileName = $('#customFile4')[0].files[0].name;
             let image = {
+                fileName: fileName,
                 image: canvas4
             };
             images.push(image);
         }
 
         if(canvas5 != 'data:,') {
+            let fileName = $('#customFile5')[0].files[0].name;
             let image = {
+                fileName: fileName,
                 image: canvas5
             };
             images.push(image);
