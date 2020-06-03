@@ -52,57 +52,19 @@ $(function() {
     $('#close').on('click', function() {
         let images = [];
 
-        let canvas1 = $('#canvas1').get(0).toDataURL('image/jpeg');
-        let canvas2 = $('#canvas2').get(0).toDataURL('image/jpeg');
-        let canvas3 = $('#canvas3').get(0).toDataURL('image/jpeg');
-        let canvas4 = $('#canvas4').get(0).toDataURL('image/jpeg');
-        let canvas5 = $('#canvas5').get(0).toDataURL('image/jpeg');
+        for(i=1; i<=5; i++) {
+            let fileName = $('#customFile'+i).next('.custom-file-label').html()
+            let canvas = $('#canvas'+i).get(0).toDataURL('image/jpeg');
 
-        if(canvas1 != 'data:,') {
-            let fileName = $('#customFile1')[0].files[0].name;
-            let image = {
-                fileName: fileName,
-                image: canvas1
-            };
-            images.push(image);
+            if(canvas != 'data:,') {
+                let image = {
+                    fileName: fileName,
+                    dataUri: canvas
+                };
+                images.push(image);
+            }
         }
-
-        if(canvas2 != 'data:,') {
-            let fileName = $('#customFile2')[0].files[0].name;
-            let image = {
-                fileName: fileName,
-                image: canvas2
-            };
-            images.push(image);
-        }
-
-        if(canvas3 != 'data:,') {
-            let fileName = $('#customFile3')[0].files[0].name;
-            let image = {
-                fileName: fileName,
-                image: canvas3
-            };
-            images.push(image);
-        }
-
-        if(canvas4 != 'data:,') {
-            let fileName = $('#customFile4')[0].files[0].name;
-            let image = {
-                fileName: fileName,
-                image: canvas4
-            };
-            images.push(image);
-        }
-
-        if(canvas5 != 'data:,') {
-            let fileName = $('#customFile5')[0].files[0].name;
-            let image = {
-                fileName: fileName,
-                image: canvas5
-            };
-            images.push(image);
-        }
-
+        
         saveToIdb(id, 'images', images);
 
     });
@@ -214,7 +176,7 @@ function displayImages(id) {
                         canvas.attr('width', img.width).attr('height', img.height)
                         ctx.drawImage(img, 0, 0, canvas[0].width, canvas[0].height, 0, 0, img.width, img.height);
                     };
-                    img.src = object.images[i].image;
+                    img.src = object.images[i].dataUri;
                     
                     index = index + 1;
                 }
