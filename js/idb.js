@@ -64,7 +64,7 @@ $(function() {
                 images.push(image);
             }
         }
-        
+
         saveToIdb(id, 'images', images);
 
     });
@@ -168,11 +168,6 @@ function displayImages(id) {
 
                     let img = new Image();
                     img.onload = function() {
-                        console.log(img.src);
-                        console.log(canvas[0].width);
-                        console.log(canvas[0].height);
-                        console.log(img.width);
-                        console.log(img.height);
                         canvas.attr('width', img.width).attr('height', img.height)
                         ctx.drawImage(img, 0, 0, canvas[0].width, canvas[0].height, 0, 0, img.width, img.height);
                     };
