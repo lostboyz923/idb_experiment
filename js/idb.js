@@ -42,7 +42,7 @@ $(function() {
     });
 
     $('.comment').on('click', function() {
-        rewriteCommentWithIdb(id);
+        $('#comment').val($('.recode').find('#commentText').val());
     });
 
     $('.images').on('click', function() {
@@ -118,27 +118,6 @@ function rewriteWithIdb(recode, id) {
 
             if(object.comment) {
                 recode.find('#commentText').val(object.comment);
-            }
-        };
-
-    };
-
-}
-
-function rewriteCommentWithIdb(id) {
-    let dbOpenRequest = window.indexedDB.open("myDB");
-
-    dbOpenRequest.onsuccess = function(event) {
-        let db = dbOpenRequest.result;
-        let transaction = db.transaction(["myObjectStore"], "readwrite");
-        let objectStore = transaction.objectStore("myObjectStore");
-        let objectGetRequest = objectStore.get(id);
-
-        objectGetRequest.onsuccess = function(event) {
-            let object = objectGetRequest.result;
-            
-            if(object.comment) {
-                $('#comment').val(object.comment);
             }
         };
 
