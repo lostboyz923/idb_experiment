@@ -46,6 +46,14 @@ $(function() {
     });
 
     $('.images').on('click', function() {
+        //labelとcanvasを削除する
+        for(i=1; i<=5; i++) {
+            $('#customFile'+i).next('.custom-file-label').html('ファイル選択...');
+            let canvas = $('#canvas'+i);
+            let ctx = canvas[0].getContext('2d');
+            ctx.clearRect(0, 0, canvas[0].width, canvas[0].height);
+            canvas.attr('width', 0).attr('height', 0);
+        }
         displayImages(id);
     });
 
@@ -143,8 +151,7 @@ function displayImages(id) {
                     $('#customFile'+index).next('.custom-file-label').html(object.images[i].fileName);
                     let canvas = $('#canvas'+index);
                     let ctx = canvas[0].getContext('2d');
-                    ctx.clearRect(0, 0, canvas[0].width, canvas[0].height);
-
+                    
                     let img = new Image();
                     img.onload = function() {
                         canvas.attr('width', img.width).attr('height', img.height)
