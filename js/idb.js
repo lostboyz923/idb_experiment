@@ -167,3 +167,21 @@ function displayImages(id) {
     };
 
 }
+
+function getAllObjectsFromIdb(id) {
+    let dbOpenRequest = window.indexedDB.open("myDB");
+
+    dbOpenRequest.onsuccess = function(event) {
+        let db = dbOpenRequest.result;
+        let transaction = db.transaction(["myObjectStore"], "readwrite");
+        let objectStore = transaction.objectStore("myObjectStore");
+        let keyRange = IDBKeyRange.only(id);
+        let objectsGetAllRequest = objectStore.getAll(keyRange);
+
+        objectsGetAllRequest.onsuccess = function(event) {
+            let objects = objectsGetAllRequest.result;
+            console.log(objects);
+        }
+    };
+
+}
