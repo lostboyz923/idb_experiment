@@ -26,17 +26,26 @@ $(function() {
     
     $('#name').on('change', function() {
         let name = $('#name').val();
-        saveToIdb(id, 'name', name);
+        saveToIdb(id, 'name', name)
+        .catch(function(error) {
+            alert(error);
+        });
     });
 
     $('#evaluation').on('change', function() {
         let evaluation = $('#evaluation').val();
-        saveToIdb(id, 'evaluation', evaluation);
+        saveToIdb(id, 'evaluation', evaluation)
+        .catch(function(error) {
+            alert(error);
+        });
     });
 
     $('#comment').on('change', function() {
         let comment = $('#comment').val();
-        saveToIdb(id, 'comment', comment);
+        saveToIdb(id, 'comment', comment)
+        .catch(function(error) {
+            alert(error);
+        });
 
         $('.recode').find('#commentText').val(comment);
     });
@@ -73,35 +82,50 @@ $(function() {
             }
         }
 
-        saveToIdb(id, 'images', images);
+        saveToIdb(id, 'images', images)
+        .catch(function(error) {
+            alert(error);
+        });
 
     });
 });
 
 function saveToIdb(id, key, value) {
-    let dbOpenRequest = window.indexedDB.open("myDB");
+    return new Promise(function(resolve, reject) {
+        let dbOpenRequest = window.indexedDB.open("myDB");
+    
+        dbOpenRequest.onsuccess = function(event) {
+            let db = event.target.result;
+            let transaction = db.transaction(["myObjectStore"], "readwrite");
+            let objectStore = transaction.objectStore("myObjectStore");
+            let objectGetRequest = objectStore.get(id);
+    
+            objectGetRequest.onsuccess = function(event) {
+                let object = event.target.result;
+                if(object == null) {
+                    let newObject = { id: id };
+                    newObject[key] = value;
+    
+                    objectStore.add(newObject);
+                } else {
+                    object[key] = value;
+    
+                    objectStore.put(object);
+                }
+                resolve();
+            };
 
-    dbOpenRequest.onsuccess = function(event) {
-        let db = dbOpenRequest.result;
-        let transaction = db.transaction(["myObjectStore"], "readwrite");
-        let objectStore = transaction.objectStore("myObjectStore");
-        let objectGetRequest = objectStore.get(id);
-
-        objectGetRequest.onsuccess = function(event) {
-            let object = objectGetRequest.result;
-            if(object == null) {
-                let newObject = { id: id };
-                newObject[key] = value;
-
-                objectStore.add(newObject);
-            } else {
-                object[key] = value;
-
-                objectStore.put(object);
+            objectGetRequest.onerror = function(error) {
+                reject(error);
             }
+    
         };
 
-    };
+        dbOpenRequest.onerror = function(error) {
+            reject(error);
+        }
+
+    });
 
 }
 
