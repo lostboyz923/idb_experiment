@@ -157,7 +157,6 @@ function getObjectFromIdb(id) {
 
             objectGetRequest.onsuccess = function(event) {
                 let object = event.target.result;
-                
                 resolve(object);
             };
 
