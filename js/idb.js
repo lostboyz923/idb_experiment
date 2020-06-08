@@ -79,7 +79,29 @@ $(function() {
             ctx.clearRect(0, 0, canvas[0].width, canvas[0].height);
             canvas.attr('width', 0).attr('height', 0);
         }
-        displayImages(id);
+        //保存されている画像をcanvasに描画する
+        getObjectFromIdb(id).then(function(object) {
+            if(object && object.images) {
+                let index = 1;
+                for(i=0; i<object.images.length; i++) {
+                    $('#customFile'+index).next('.custom-file-label').html(object.images[i].fileName);
+                    let canvas = $('#canvas'+index);
+                    let ctx = canvas[0].getContext('2d');
+                    
+                    let img = new Image();
+                    img.onload = function() {
+                        canvas.attr('width', img.width).attr('height', img.height)
+                        ctx.drawImage(img, 0, 0, canvas[0].width, canvas[0].height, 0, 0, img.width, img.height);
+                    };
+                    img.src = object.images[i].dataUri;
+                    
+                    index = index + 1;
+                }
+            }
+        })
+        .catch(function(error) {
+            alert(error);
+        })
     });
 
     $('#close').on('click', function() {
@@ -171,41 +193,6 @@ function getObjectFromIdb(id) {
         };
     
     }); 
-
-}
-
-function displayImages(id) {
-    let dbOpenRequest = window.indexedDB.open("myDB");
-
-    dbOpenRequest.onsuccess = function(event) {
-        let db = dbOpenRequest.result;
-        let transaction = db.transaction(["myObjectStore"], "readwrite");
-        let objectStore = transaction.objectStore("myObjectStore");
-        let objectGetRequest = objectStore.get(id);
-
-        objectGetRequest.onsuccess = function(event) {
-            let object = objectGetRequest.result;
-            
-            if(object.images) {
-                let index = 1;
-                for(i=0; i<object.images.length; i++) {
-                    $('#customFile'+index).next('.custom-file-label').html(object.images[i].fileName);
-                    let canvas = $('#canvas'+index);
-                    let ctx = canvas[0].getContext('2d');
-                    
-                    let img = new Image();
-                    img.onload = function() {
-                        canvas.attr('width', img.width).attr('height', img.height)
-                        ctx.drawImage(img, 0, 0, canvas[0].width, canvas[0].height, 0, 0, img.width, img.height);
-                    };
-                    img.src = object.images[i].dataUri;
-                    
-                    index = index + 1;
-                }
-            }
-        };
-
-    };
 
 }
 
