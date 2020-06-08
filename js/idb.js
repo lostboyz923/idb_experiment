@@ -15,10 +15,26 @@ function initializeDB() {
 }
 
 document.addEventListener("DOMContentLoaded", function(){
-    let recode = $('.recode');
-
     let id = 1;
-    rewriteWithIdb(recode, id);
+    getObjectFromIdb(id).then(function(object) {
+        if(object != null) {
+            if(object.name != null) {
+                $('.recode').find('#name').val(object.name);
+            }
+    
+            if(object.evaluation != null) {
+                $('.recode').find('#evaluation').val(object.evaluation);
+            }
+    
+            if(object.comment != null) {
+                $('.recode').find('#commentText').val(object.comment);
+            }
+        }
+    })
+    .catch(function(error) {
+        alert(error);
+    })
+
 });
 
 $(function() {
@@ -156,34 +172,6 @@ function getObjectFromIdb(id) {
         };
     
     }); 
-
-}
-
-function rewriteWithIdb(recode, id) {
-    let dbOpenRequest = window.indexedDB.open("myDB");
-
-    dbOpenRequest.onsuccess = function(event) {
-        let db = dbOpenRequest.result;
-        let transaction = db.transaction(["myObjectStore"], "readwrite");
-        let objectStore = transaction.objectStore("myObjectStore");
-        let objectGetRequest = objectStore.get(id);
-
-        objectGetRequest.onsuccess = function(event) {
-            let object = objectGetRequest.result;
-            if(object.name) {
-                recode.find('#name').val(object.name);
-            }
-
-            if(object.evaluation) {
-                recode.find('#evaluation').val(object.evaluation);
-            }
-
-            if(object.comment) {
-                recode.find('#commentText').val(object.comment);
-            }
-        };
-
-    };
 
 }
 
