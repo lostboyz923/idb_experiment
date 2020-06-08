@@ -129,6 +129,36 @@ function saveToIdb(id, key, value) {
 
 }
 
+function getObjectFromIdb(id) {
+    return new Promise(function(resolve, reject) {
+        let dbOpenRequest = window.indexedDB.open("myDB");
+
+        dbOpenRequest.onsuccess = function(event) {
+            let db = event.target.result;
+            let transaction = db.transaction(["myObjectStore"]);
+            let objectStore = transaction.objectStore("myObjectStore");
+            let objectGetRequest = objectStore.get(id);
+
+            objectGetRequest.onsuccess = function(event) {
+                let object = event.target.result;
+                
+                resolve(object);
+            };
+
+            objectGetRequest.onerror = function(error) {
+                reject(error);
+            };
+
+        };
+
+        dbOpenRequest.onerror = function(error) {
+            reject(error);
+        };
+    
+    }); 
+
+}
+
 function rewriteWithIdb(recode, id) {
     let dbOpenRequest = window.indexedDB.open("myDB");
 
