@@ -117,13 +117,13 @@ function saveToIdb(id, key, value) {
 
             objectGetRequest.onerror = function(error) {
                 reject(error);
-            }
+            };
     
         };
 
         dbOpenRequest.onerror = function(error) {
             reject(error);
-        }
+        };
 
     });
 
