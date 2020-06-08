@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function(){
     })
     .catch(function(error) {
         alert(error);
-    })
+    });
 
 });
 
@@ -101,7 +101,7 @@ $(function() {
         })
         .catch(function(error) {
             alert(error);
-        })
+        });
     });
 
     $('#close').on('click', function() {
