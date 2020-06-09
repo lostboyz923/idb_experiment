@@ -197,19 +197,31 @@ function getObjectFromIdb(id) {
 }
 
 function getAllObjectsFromIdb(id) {
-    let dbOpenRequest = window.indexedDB.open("myDB");
+    return new Promise(function(resolve, reject) {
+        let dbOpenRequest = window.indexedDB.open("myDB");
+    
+        dbOpenRequest.onsuccess = function(event) {
+            let db = dbOpenRequest.result;
+            let transaction = db.transaction(["myObjectStore"], "readwrite");
+            let objectStore = transaction.objectStore("myObjectStore");
+            let keyRange = IDBKeyRange.only(id);
+            let objectsGetAllRequest = objectStore.getAll(keyRange);
+    
+            objectsGetAllRequest.onsuccess = function(event) {
+                let objects = objectsGetAllRequest.result;
+                resolve();
+            };
 
-    dbOpenRequest.onsuccess = function(event) {
-        let db = dbOpenRequest.result;
-        let transaction = db.transaction(["myObjectStore"], "readwrite");
-        let objectStore = transaction.objectStore("myObjectStore");
-        let keyRange = IDBKeyRange.only(id);
-        let objectsGetAllRequest = objectStore.getAll(keyRange);
+            objectsGetAllRequest.onerror = function(error) {
+                reject(error);
+            };
 
-        objectsGetAllRequest.onsuccess = function(event) {
-            let objects = objectsGetAllRequest.result;
-            console.log(objects);
-        }
-    };
+        };
+
+        dbOpenRequest.onerror = function(error) {
+            reject(error);
+        };
+
+    });
 
 }
