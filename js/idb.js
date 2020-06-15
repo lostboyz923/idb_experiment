@@ -225,3 +225,31 @@ function getAllObjectsFromIdb(id) {
     });
 
 }
+
+function clearObjectsFromIdb() {
+    return new Promise(function(resolve, reject) {
+        let dbOpenRequest = window.indexedDB.open("myDB");
+
+        dbOpenRequest.onsuccess = function(event) {
+            let db = dbOpenRequest.result;
+            let transaction = db.transaction(["myObjectStore"], "readwrite");
+            let objectStore = transaction.objectStore("myObjectStore");
+
+            let objectClearRequest = objectStore.clear();
+
+            objectClearRequest.onsuccess = function(event) {
+                resolve();
+            };
+
+            objectClearRequest.onerror = function(error) {
+                reject(error);
+            };
+
+        };
+
+        dbOpenRequest.onerror = function(error) {
+            reject(error);
+        };
+
+    });
+}
