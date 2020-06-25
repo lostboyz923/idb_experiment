@@ -17,7 +17,7 @@ $('.reset').click(function(){
 })
 
 // 画像のリサイズ
-function resizeImage(file, mark) {
+function resizeImage(file, target) {
     console.log(file);
     //リサイズ後の幅と高さの最大値を定義
     const maxWidth = 500;
@@ -47,7 +47,7 @@ function resizeImage(file, mark) {
                 }
             }
             //canvas
-            let canvas = mark.parents('.image').find('.canvas').attr('width', width).attr('height', height);
+            let canvas = target.parents('.image').find('.canvas').attr('width', width).attr('height', height);
             let ctx = canvas[0].getContext('2d');
 
             //canvasに描画されている画像を削除
