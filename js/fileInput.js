@@ -16,7 +16,7 @@ $('.reset').click(function(){
     canvas.attr('width', 0).attr('height', 0);
 })
 
-// 画像のリサイズ
+//画像のリサイズ
 function resizeImage(file, target) {
     console.log(file);
     //リサイズ後の幅と高さの最大値を定義
@@ -27,7 +27,7 @@ function resizeImage(file, target) {
     let fileReader = new FileReader();
     fileReader.onload = function(event) {
         image.onload = function() {
-            // 元画像の幅と高さ
+            //元画像の幅と高さ
             let width = image.width;
             let height = image.height;
             console.log('before width:'+width);
