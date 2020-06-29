@@ -88,12 +88,12 @@ $(function() {
                     let canvas = $('#canvas'+index);
                     let ctx = canvas[0].getContext('2d');
                     
-                    let img = new Image();
-                    img.onload = function() {
-                        canvas.attr('width', img.width).attr('height', img.height)
-                        ctx.drawImage(img, 0, 0, canvas[0].width, canvas[0].height, 0, 0, img.width, img.height);
+                    let image = new Image();
+                    image.onload = function() {
+                        canvas.attr('width', image.width).attr('height', image.height)
+                        ctx.drawImage(image, 0, 0, canvas[0].width, canvas[0].height, 0, 0, image.width, image.height);
                     };
-                    img.src = object.images[i].dataUri;
+                    image.src = object.images[i].dataUri;
                     
                     index = index + 1;
                 }
