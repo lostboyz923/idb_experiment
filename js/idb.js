@@ -71,7 +71,7 @@ $(function() {
     });
 
     $('.images').on('click', function() {
-        //labelとcanvasを削除する
+        //labelとcanvasを削除する //  Remove label and canvas
         for(i=1; i<=5; i++) {
             $('#customFile'+i).next('.custom-file-label').html('ファイル選択...');
             let canvas = $('#canvas'+i);
@@ -79,7 +79,7 @@ $(function() {
             ctx.clearRect(0, 0, canvas[0].width, canvas[0].height);
             canvas.attr('width', 0).attr('height', 0);
         }
-        //保存されている画像をcanvasに描画する
+        //保存されている画像をcanvasに描画する // Draw a saved image on a canvas
         getObjectFromIdb(id).then(function(object) {
             if(object && object.images) {
                 let index = 1;
